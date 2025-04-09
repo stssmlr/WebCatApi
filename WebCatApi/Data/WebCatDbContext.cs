@@ -4,7 +4,7 @@ using WebCatApi.Data.Entities.Identity;
 
 namespace WebCatApi.Data;
 
-public class WebCatDbContext : IdentityDbContext<UserEntity, RoleEntity, long>
+public class WebCatDbContext: IdentityDbContext<UserEntity, RoleEntity, long>
 {
     public WebCatDbContext(DbContextOptions<WebCatDbContext> options)
         : base(options) { }

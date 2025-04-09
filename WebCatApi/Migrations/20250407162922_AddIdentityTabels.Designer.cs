@@ -12,7 +12,7 @@ using WebCatApi.Data;
 namespace WebCatApi.Migrations
 {
     [DbContext(typeof(WebCatDbContext))]
-    [Migration("20250407163444_AddIdentityTabels")]
+    [Migration("20250407162922_AddIdentityTabels")]
     partial class AddIdentityTabels
     {
         /// <inheritdoc />

@@ -1,4 +1,4 @@
-@WebCatApi_HostAddress = http://localhost:5286
+@WebCatApi_HostAddress = http://localhost:5067
 
 GET {{WebCatApi_HostAddress}}/weatherforecast/
 Accept: application/json
