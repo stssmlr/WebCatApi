@@ -12,7 +12,7 @@ using WebCatApi.Data;
 namespace WebCatApi.Migrations
 {
     [DbContext(typeof(WebCatDbContext))]
-    [Migration("20250407162922_AddIdentityTabels")]
+    [Migration("20250407162802_AddIdentityTabels")]
     partial class AddIdentityTabels
     {
         /// <inheritdoc />
@@ -135,7 +135,7 @@ namespace WebCatApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebCatApi.Data.Entities.Identity.RoleEntity", b =>
+            modelBuilder.Entity("WebCatApi.Data.Entities.RoleEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +164,7 @@ namespace WebCatApi.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("WebCatApi.Data.Entities.Identity.UserEntity", b =>
+            modelBuilder.Entity("WebCatApi.Data.Entities.UserEntity", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -243,7 +243,7 @@ namespace WebCatApi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("WebCatApi.Data.Entities.Identity.UserRoleEntity", b =>
+            modelBuilder.Entity("WebCatApi.Data.Entities.UserRoleEntity", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<long>");
 
@@ -254,7 +254,7 @@ namespace WebCatApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
-                    b.HasOne("WebCatApi.Data.Entities.Identity.RoleEntity", null)
+                    b.HasOne("WebCatApi.Data.Entities.RoleEntity", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -263,7 +263,7 @@ namespace WebCatApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
-                    b.HasOne("WebCatApi.Data.Entities.Identity.UserEntity", null)
+                    b.HasOne("WebCatApi.Data.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -272,7 +272,7 @@ namespace WebCatApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
-                    b.HasOne("WebCatApi.Data.Entities.Identity.UserEntity", null)
+                    b.HasOne("WebCatApi.Data.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -281,22 +281,22 @@ namespace WebCatApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.HasOne("WebCatApi.Data.Entities.Identity.UserEntity", null)
+                    b.HasOne("WebCatApi.Data.Entities.UserEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebCatApi.Data.Entities.Identity.UserRoleEntity", b =>
+            modelBuilder.Entity("WebCatApi.Data.Entities.UserRoleEntity", b =>
                 {
-                    b.HasOne("WebCatApi.Data.Entities.Identity.RoleEntity", "Role")
+                    b.HasOne("WebCatApi.Data.Entities.RoleEntity", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebCatApi.Data.Entities.Identity.UserEntity", "User")
+                    b.HasOne("WebCatApi.Data.Entities.UserEntity", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -307,12 +307,12 @@ namespace WebCatApi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebCatApi.Data.Entities.Identity.RoleEntity", b =>
+            modelBuilder.Entity("WebCatApi.Data.Entities.RoleEntity", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("WebCatApi.Data.Entities.Identity.UserEntity", b =>
+            modelBuilder.Entity("WebCatApi.Data.Entities.UserEntity", b =>
                 {
                     b.Navigation("UserRoles");
                 });

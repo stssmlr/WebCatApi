@@ -3,38 +3,41 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WebCatApi.Abstract;
-using WebCatApi.Data.Entities.Identity;
+using WebCatApi.Absrtact;
+using WebCatApi.Data.Entities;
 
-namespace WebCatApi.Services;
-
-public class JwtTokenService(IConfiguration configuration,
-    UserManager<UserEntity> userManager) : IJwtTokenService
+namespace WebCatApi.Services
 {
-    public async Task<string> CreateTokenAsync(UserEntity user)
+    public class JwtTokenService(IConfiguration configuration,
+     UserManager<UserEntity> userManager) : IJwtTokenService
     {
-        var claims = new List<Claim>
+        public async Task<string> CreateTokenAsync(UserEntity user)
+        {
+            var claims = new List<Claim>
         {
             new Claim("email", user.Email),
-            new Claim("name", $"{user.Lastname} {user.Firstname}")
+            new Claim("lastName", $"{user.Lastname}"),
+            new Claim("firstName", $"{user.Firstname}"),
+            new Claim("image", $"{user.Image}")
         };
-        var roles = await userManager.GetRolesAsync(user);
+            var roles = await userManager.GetRolesAsync(user);
 
-        foreach (var role in roles)
-            claims.Add(new Claim("roles", role));
+            foreach (var role in roles)
+                claims.Add(new Claim("roles", role));
 
-        var key = Encoding.UTF8.GetBytes(configuration.GetValue<string>("JwtSecretKey") ??
-            "adlfjalUIYUuihafy3498rt74k765gy32lNLJLhfasify93sohfRQR##%^#&&^%@#$!sljdfl33s");
+            var key = Encoding.UTF8.GetBytes(configuration.GetValue<string>("JwtSecretKey") ??
+                "adlfjalUIYUuihafy3498rt74k765gy32lNLJLhfasify93sohfRQR##%^#&&^%@#$!sljdfl33s");
 
-        var signinKey = new SymmetricSecurityKey(key);
+            var signinKey = new SymmetricSecurityKey(key);
 
-        var signinCredential = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
+            var signinCredential = new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256);
 
-        var jwt = new JwtSecurityToken(
-            signingCredentials: signinCredential,
-            expires: DateTime.Now.AddDays(10),
-            claims: claims);
+            var jwt = new JwtSecurityToken(
+                signingCredentials: signinCredential,
+                expires: DateTime.Now.AddDays(10),
+                claims: claims);
 
-        return new JwtSecurityTokenHandler().WriteToken(jwt);
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
     }
 }

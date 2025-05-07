@@ -1,28 +1,29 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WebCatApi.Data.Entities.Identity;
+using WebCatApi.Data.Entities;
 
-namespace WebCatApi.Data;
-
-public class WebCatDbContext: IdentityDbContext<UserEntity, RoleEntity, long>
+namespace WebCatApi.Data
 {
-    public WebCatDbContext(DbContextOptions<WebCatDbContext> options)
-        : base(options) { }
-
-    protected override void OnModelCreating(ModelBuilder builder)
+    public class WebCatDbContext : IdentityDbContext<UserEntity, RoleEntity, long>
     {
-        base.OnModelCreating(builder);
-        builder.Entity<UserRoleEntity>(ur =>
-        {
-            ur.HasOne(ur => ur.Role)
-                .WithMany(r => r.UserRoles)
-                .HasForeignKey(r => r.RoleId)
-                .IsRequired();
+        public WebCatDbContext(DbContextOptions<WebCatDbContext> options)
+            : base(options) { }
 
-            ur.HasOne(ur => ur.User)
-                .WithMany(r => r.UserRoles)
-                .HasForeignKey(u => u.UserId)
-                .IsRequired();
-        });
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<UserRoleEntity>(ur =>
+            {
+                ur.HasOne(ur => ur.Role)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(r => r.RoleId)
+                    .IsRequired();
+
+                ur.HasOne(ur => ur.User)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(u => u.UserId)
+                    .IsRequired();
+            });
+        }
     }
 }
